@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F55FF1725A7022C001A38E9 /* WRFileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F55FF1625A7022C001A38E9 /* WRFileTableViewController.swift */; };
 		B42178D41DAE4792005002DA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42178D31DAE4792005002DA /* UIKit.framework */; };
 		B43DD1591D2600A600FC513B /* WritingBoardToolSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DD1581D2600A600FC513B /* WritingBoardToolSetViewController.swift */; };
 		B45F501E1DB8AE310070A327 /* WritintBoardCanvasPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45F501D1DB8AE310070A327 /* WritintBoardCanvasPage.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F55FF1625A7022C001A38E9 /* WRFileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WRFileTableViewController.swift; sourceTree = "<group>"; };
 		B42178D31DAE4792005002DA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B43DD1581D2600A600FC513B /* WritingBoardToolSetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingBoardToolSetViewController.swift; sourceTree = "<group>"; };
 		B45F501D1DB8AE310070A327 /* WritintBoardCanvasPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritintBoardCanvasPage.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				B4EA3BA01D02CC060096270C /* AppDelegate.swift */,
 				B4EA3BA21D02CC060096270C /* ViewController.swift */,
+				9F55FF1625A7022C001A38E9 /* WRFileTableViewController.swift */,
 				B4FABB5C1D264519005480AE /* WritingBoardCanvasView.swift */,
 				B45F501D1DB8AE310070A327 /* WritintBoardCanvasPage.swift */,
 				B4CA1BE71D2BC17600F0E6C3 /* PenLine.swift */,
@@ -240,6 +243,7 @@
 				B4BEC9CA1D24C1EB0069C7E4 /* WritingBoardViewController.swift in Sources */,
 				B4CA1BE81D2BC17600F0E6C3 /* PenLine.swift in Sources */,
 				B4B3CA981D2CF06C00F93E3D /* WritingMessageTransport.swift in Sources */,
+				9F55FF1725A7022C001A38E9 /* WRFileTableViewController.swift in Sources */,
 				B43DD1591D2600A600FC513B /* WritingBoardToolSetViewController.swift in Sources */,
 				B4D0774D1D2E491E006A22BB /* MyViewModel.swift in Sources */,
 				B4EA3BA11D02CC060096270C /* AppDelegate.swift in Sources */,

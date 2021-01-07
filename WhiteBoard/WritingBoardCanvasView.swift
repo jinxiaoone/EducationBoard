@@ -20,8 +20,8 @@ protocol WritingBoardCanvasViewDelegate: class {
 
 class WritingBoardCanvasView: UIView {
     
-    var canvasColor = WritingBoardColor.whiteColor
-    var penColor = WritingBoardColor.blueColor
+    var canvasColor = QWritingBoardColor.whiteColor
+    var penColor = QWritingBoardColor.whiteColor
     var penWidth: CGFloat = 2.0
     let blendMode = CGBlendMode.normal
     var lastCaptureTime = Date()
@@ -97,7 +97,6 @@ class WritingBoardCanvasView: UIView {
     func beginTouches(_ touches: Set<UITouch>, withEvent event: UIEvent?) {
         NSLog("chenggong---")
         if let location = touches.first?.location(in: self) {
-            
             let penEvent = WritingBoardPenEvent(
                 location: location,
                 penSize:  penWidth,
@@ -186,36 +185,22 @@ class WritingBoardCanvasView: UIView {
     
     
     fileprivate func captureFrozenImage() {
-        
-        //print("time interval ", lastCaptureTime.timeIntervalSinceNow)
-        
         if !capturing || lastCaptureTime.timeIntervalSinceNow > captureInterval {
             return
         }
 
         lastCaptureTime = Date()
-        //NSLog("%@", lastCaptureTime)
-        
-        
+     
         let imageNoLogo = frozenContext.makeImage()
-        //TODO: 只绘制和重绘logo部分，以提高效率
-        //        if let logoimg = logoImage {
-        //            paintImage(logoimg)
-        //            imageToRecord = CGBitmapContextCreateImage(frozenContext)
-        //            CGContextDrawImage(frozenContext, bounds, imageNoLogo)
-        //        }
-        
         if imageNoLogo != nil {
             delegate?.imageCaptured(imageNoLogo!,
                                     width: pixelWidth,
                                     height: pixelHeight)
         }
-        
-        
     }
     
     
-    
+    // 加载当前画布
     func loadPage(_ pageToLoad: WritintBoardCanvasPage) {
         page.restoreImage = frozenContext.makeImage()
         if let imageToRestore = pageToLoad.restoreImage {

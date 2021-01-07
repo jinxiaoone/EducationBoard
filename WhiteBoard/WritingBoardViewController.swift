@@ -9,23 +9,13 @@
 import UIKit
 import AVFoundation
 
-class WritingBoardColor {
-    /*
-     通过此方式创建的blackColor != UIColor.blackColor
-     */
-    static let blackColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    static let redColor = UIColor.red
-    static let blueColor = UIColor.blue
-    static let whiteColor = UIColor.white
-}
-
-
 
 class WritingBoardViewController: UIViewController {
     
     var canvasDrawable = true
     
     @IBOutlet weak var canvasView: WritingBoardCanvasView!
+    
     
     var pages = [WritintBoardCanvasPage]()
     
@@ -36,7 +26,6 @@ class WritingBoardViewController: UIViewController {
     var currentPage: WritintBoardCanvasPage {
         return pages[pageIndex]
     }
-    
     
     
     override internal func viewDidLoad() {
@@ -50,12 +39,15 @@ class WritingBoardViewController: UIViewController {
     override internal func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NSLog("白板界面即将出现")
-        UIApplication.shared.setStatusBarHidden(true, with: .none)
         
     }
     
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
+    
     var firstTimeAppear = true
-    override open func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NSLog("白板界面已经出现")
 //        if firstTimeAppear {
@@ -84,8 +76,14 @@ class WritingBoardViewController: UIViewController {
     
     func usePen(_ width: CGFloat, color: UIColor) {
         assert(width > 0)
-        canvasView.penWidth  = width
-        canvasView.penColor  = color
+        canvasView.penWidth = width
+        canvasView.penColor = color
+    }
+    
+    func useEraser(width: CGFloat) {
+        assert(width > 0)
+        canvasView.penWidth = width
+        canvasView.penColor = canvasView.canvasColor
     }
     
     
@@ -240,6 +238,7 @@ class WritingBoardViewController: UIViewController {
     /**
      * @return 是否增加了Page
      */
+    @discardableResult
     func gotoNextPage(sendToPeer: Bool) -> Bool {
         
         var addedNewPage = false
@@ -278,12 +277,9 @@ class WritingBoardViewController: UIViewController {
         let newPage = WritintBoardCanvasPage()
         pages.insert(newPage, at: index + 1)
         NSLog("after add a page, have %d pages", pages.count)
-        let _ = gotoNextPage(sendToPeer: false)
-        
-        
+        gotoNextPage(sendToPeer: false)
         
     }
-    
     
     
 }
@@ -291,15 +287,24 @@ class WritingBoardViewController: UIViewController {
 
 extension WritingBoardViewController: WritingBoardToolSetViewControllerProtocol {
     
-    
     func penChanged(_ width: CGFloat, color: UIColor) {
         usePen(width, color: color)
     }
     
     func eraserChanged(_ width: CGFloat) {
+        useEraser(width: width)
+    }
+    
+    func addImage(image: UIImage) {
+        var normaledImage = normalImageOrientation(image)
+        normaledImage = normalImageScale(normaledImage)
         
     }
     
+    func insertPage() {
+        insertPage(afterIndex: pageIndex)
+//        messageTransport?.sendInsertPageEvent(pageIndex)
+    }
     
     //Delegate as Hidden ToolView
     func toolsetViewControllerRetired(_ controller: WritingBoardToolSetViewController) {
@@ -316,4 +321,31 @@ extension WritingBoardViewController: WritingBoardToolSetViewControllerProtocol 
     }
 }
 
+
+extension WritingBoardViewController {
+    
+    func normalImageOrientation(_ image: UIImage) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+        
+        guard let normalImage = UIGraphicsGetImageFromCurrentImageContext() else { return UIImage() }
+
+        UIGraphicsEndImageContext()
+        
+        print("normalImageOrientation\n %@ ->\n %@", image, normalImage)
+        print("image0 orient ", image.imageOrientation.rawValue, " scale ", image.scale, " size ", image.size)
+        print("image1 orient ", normalImage.imageOrientation.rawValue, " scale ", normalImage.scale, " size ", normalImage.size)
+        
+        return normalImage
+    }
+    
+    func normalImageScale(_ image: UIImage) -> UIImage {
+        let screenScale = UIScreen.main.scale
+        if image.scale == screenScale || image.cgImage == nil {
+            return image
+        }
+        return UIImage(cgImage: (image.cgImage)!, scale: screenScale, orientation: .up)
+    }
+    
+    
+}
 
