@@ -71,7 +71,7 @@ class WritintBoardCanvasPage {
             if let cgimage = newValue {
                 NSLog("begin cache image")
                 let image = UIImage(cgImage: cgimage)
-                let pngData = UIImagePNGRepresentation(image)
+                let pngData = image.pngData()
                 try? pngData?.write(to: cacheUrl(), options: [])
                 print("png data size \(String(describing: pngData?.count))")
             }

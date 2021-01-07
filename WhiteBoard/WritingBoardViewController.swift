@@ -73,13 +73,13 @@ class WritingBoardViewController: UIViewController {
         
         toolsetVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RAYToolSetVCID") as? WritingBoardToolSetViewController
         toolsetVC!.delegate = self
-        addChildViewController(toolsetVC!)
+        addChild(toolsetVC!)
         
         var childFrame = view.bounds
         childFrame.size.width = view.bounds.width / 2 - 100.0
         toolsetVC?.view.frame = childFrame
         view.addSubview(toolsetVC!.view)
-        toolsetVC!.didMove(toParentViewController: self)
+        toolsetVC!.didMove(toParent: self)
     }
     
     func usePen(_ width: CGFloat, color: UIColor) {
@@ -105,13 +105,13 @@ class WritingBoardViewController: UIViewController {
     @IBAction func recordButtonTapped(_ sender: UIButton) {
         isStart = true
         changeRecordButtonToTimer()
-        uploadButton.setImage(UIImage(named: "WBRecordFinish"), for: UIControlState())
+        uploadButton.setImage(UIImage(named: "WBRecordFinish"), for: .normal)
         recordTimer = fireTimer()
     }
     
     fileprivate func changeRecordButtonToTimer() {
         recordButton.isEnabled = false
-        recordButton.setImage(UIImage(named: "WBClock"), for: UIControlState())
+        recordButton.setImage(UIImage(named: "WBClock"), for: .normal)
         timerLabel.text = ""
         timerLabel.textColor = UIColor.red
     }
@@ -127,7 +127,7 @@ class WritingBoardViewController: UIViewController {
         
     }
     
-    func timerCallback(_ timer: Timer) {
+    @objc func timerCallback(_ timer: Timer) {
         
         recordFrames += 1
         if recordFrames % recordFPS == 0 {
@@ -137,12 +137,12 @@ class WritingBoardViewController: UIViewController {
     
     fileprivate func updateTimerLabel(_ duration: Int) {
         var second = "\(duration % 60)"
-        if second.characters.count == 1 {
+        if second.count == 1 {
             second = "0" + second
         }
         
         var minute = "\(duration / 60)"
-        if minute.characters.count == 1 {
+        if minute.count == 1 {
             minute = "0" + minute
         }
         
@@ -304,9 +304,9 @@ extension WritingBoardViewController: WritingBoardToolSetViewControllerProtocol 
     //Delegate as Hidden ToolView
     func toolsetViewControllerRetired(_ controller: WritingBoardToolSetViewController) {
         
-        toolsetVC?.willMove(toParentViewController: nil)
+        toolsetVC?.willMove(toParent: nil)
         toolsetVC?.view.removeFromSuperview()
-        toolsetVC?.removeFromParentViewController()
+        toolsetVC?.removeFromParent()
         toolsetVC = nil
         
     }

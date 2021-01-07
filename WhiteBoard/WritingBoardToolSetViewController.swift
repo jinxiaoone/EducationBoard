@@ -128,7 +128,7 @@ class WritingBoardToolSetViewController: UIViewController {
         
     }
     
-    func penColorButtonTapped(_ sender: UIButton) {
+    @objc func penColorButtonTapped(_ sender: UIButton) {
         if sender == penColorBlackButton {
             toolsetAttribute.penColor = QWritingBoardColor.blackColor
         } else if sender == penColorBlueButton {
@@ -145,22 +145,22 @@ class WritingBoardToolSetViewController: UIViewController {
     
     fileprivate func activePenColor(_ penColor: UIColor) {
         
-        penColorBlackButton.setImage(UIImage(named: "WBPenColorBlack"), for: UIControlState())
-        penColorBlueButton .setImage(UIImage(named: "WBPenColorBlue"),  for: UIControlState())
-        penColorRedButton  .setImage(UIImage(named: "WBPenColorRed"),   for: UIControlState())
+        penColorBlackButton.setImage(UIImage(named: "WBPenColorBlack"), for: .normal)
+        penColorBlueButton.setImage(UIImage(named: "WBPenColorBlue"),  for: .normal)
+        penColorRedButton.setImage(UIImage(named: "WBPenColorRed"),   for: .normal)
         
         if penColor == QWritingBoardColor.blackColor {
-            penColorBlackButton.setImage(UIImage(named: "WBPenColorBlackActive"), for: UIControlState())
-            penButton.setImage(UIImage(named: "WBPenBlack"), for: UIControlState())
+            penColorBlackButton.setImage(UIImage(named: "WBPenColorBlackActive"), for: .normal)
+            penButton.setImage(UIImage(named: "WBPenBlack"), for: UIControl.State())
             penWidthSlider.minimumTrackTintColor = QWritingBoardColor.blackColor
         } else if penColor == QWritingBoardColor.blueColor {
-            penColorBlueButton .setImage(UIImage(named: "WBPenColorBlueActive"),  for: UIControlState())
-            penButton.setImage(UIImage(named: "WBPenBlue"), for: UIControlState())
+            penColorBlueButton .setImage(UIImage(named: "WBPenColorBlueActive"),  for: .normal)
+            penButton.setImage(UIImage(named: "WBPenBlue"), for: UIControl.State())
             penWidthSlider.minimumTrackTintColor = QWritingBoardColor.blueColor
             
         } else if penColor == QWritingBoardColor.redColor {
-            penColorRedButton  .setImage(UIImage(named: "WBPenColorRedActive"),   for: UIControlState())
-            penButton.setImage(UIImage(named: "WBPenRed"), for: UIControlState())
+            penColorRedButton.setImage(UIImage(named: "WBPenColorRedActive"), for: .normal)
+            penButton.setImage(UIImage(named: "WBPenRed"), for: .normal)
             penWidthSlider.minimumTrackTintColor = QWritingBoardColor.redColor
         }
     }
@@ -198,7 +198,7 @@ class WritingBoardToolSetViewController: UIViewController {
     }
     
     //画笔宽度
-    func penWidthChanged(_ sender: AnyObject) {
+    @objc func penWidthChanged(_ sender: AnyObject) {
         print("pen Width is ", penWidthSlider.value)
         toolsetAttribute.penWidth = CGFloat(penWidthSlider.value)
         if let delegate = delegate {
@@ -239,7 +239,7 @@ class WritingBoardToolSetViewController: UIViewController {
     fileprivate func updateHandeButton(_ allow: Bool) {
         let imageName = allow ? "WBHandTouchAllow" : "WBHandTouchForbbid"
         let handIcon = UIImage(named: imageName)
-        handTouchButton.setImage(handIcon, for: UIControlState())
+        handTouchButton.setImage(handIcon, for: .normal)
     }
     
 
