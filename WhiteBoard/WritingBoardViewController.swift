@@ -16,11 +16,28 @@ class WritingBoardViewController: UIViewController {
     
     @IBOutlet weak var canvasView: WritingBoardCanvasView!
     
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var uploadButton: UIButton!
+    @IBOutlet weak var recorderConsole: UIView!
+    @IBOutlet weak var finishLabel: UILabel!
+    @IBOutlet weak var timerLabel: UILabel!
+    
+    fileprivate let recordFPS = 6
+    fileprivate var recordFrames = 0
+    fileprivate var recordTimer: Timer?
+    
+    var isStart: Bool = false
+    
+    
+    @IBOutlet weak var previousPageButton: UIButton!
+    @IBOutlet weak var nextPageButton: UIButton!
+    @IBOutlet weak var pageIndicator: UILabel!
     
     var pages = [WritintBoardCanvasPage]()
     
     var pageIndex = -1 { //current page index
         didSet {
+            pageIndicator.text = "\(pageIndex + 1)/\(pages.count)"
         }
     }
     var currentPage: WritintBoardCanvasPage {
@@ -49,11 +66,7 @@ class WritingBoardViewController: UIViewController {
     var firstTimeAppear = true
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSLog("白板界面已经出现")
-//        if firstTimeAppear {
-//            firstTimeAppear = false
-//            insertPage(afterIndex: pageIndex)
-//        }
+        print("白板界面已经出现")
         
     }
     
@@ -87,19 +100,83 @@ class WritingBoardViewController: UIViewController {
     }
     
     
-    @IBOutlet weak var recordButton: UIButton!
-    @IBOutlet weak var uploadButton: UIButton!
-    @IBOutlet weak var recorderConsole: UIView!
-    @IBOutlet weak var finishLabel: UILabel!
-    @IBOutlet weak var timerLabel: UILabel!
+    //上一页
+    @IBAction func prevPageButtonTapped(_ sender: UIButton) {
+        gotoPreviousPage(sendToPeer: true)
+    }
     
-    fileprivate let recordFPS = 6
-    fileprivate var recordFrames = 0
-    fileprivate var recordTimer: Timer?
+    private func gotoPreviousPage(sendToPeer: Bool) {
+        guard pageIndex > 0 else {
+            print("already at first page. page index is %d", pageIndex)
+            return
+        }
+        
+        let pageTogo = pageIndex - 1
+//        if sendToPeer {
+//            messageTransport?.sendGotoPageEvent(pageTogo)
+//        }
+        gotoPage(pageTogo)
+
+        print("go to page %d(0..%d) ", pageIndex, pages.count - 1)
+    }
     
-    var isStart: Bool = false
     
-    //begin action
+    //下一页
+    @IBAction func nextPageTapped(_ sender: UIButton) {
+        let _ = gotoNextPage(sendToPeer: true)
+        
+//        if let movableImage = questionPicture where addNewPage {
+//            canvasView.paintImage(movableImage)
+//        }
+    }
+    
+    
+    /**
+     * @return 是否增加了Page
+     */
+    @discardableResult
+    func gotoNextPage(sendToPeer: Bool) -> Bool {
+        
+        var addedNewPage = false
+        if pageIndex == pages.count - 1 {
+            addedNewPage = true
+            pages.append(WritintBoardCanvasPage())
+        } else if (pageIndex >= pages.count) {
+            return false
+        }
+        
+        let pageTogo = pageIndex + 1
+        gotoPage(pageTogo)
+        return addedNewPage
+    }
+    
+    func gotoPage(_ index: Int) {
+        
+        assert(index >= 0 && index < pages.count)
+        pageIndex = index
+        
+        let page = pages[index]
+        canvasView.loadPage(page)
+        
+        if let _ = page.pptImageURL , !page.pptImageWasDrawn {
+            if page.pptImage != nil {
+                page.paintPPTImage(self.canvasView)
+            } else {
+                
+            }
+        }
+    }
+    
+    
+    fileprivate func insertPage(afterIndex index: Int) {
+        let newPage = WritintBoardCanvasPage()
+        pages.insert(newPage, at: index + 1)
+        print("after add a page, have %d pages", pages.count)
+        gotoNextPage(sendToPeer: false)
+        
+    }
+    
+    //开始录制
     @IBAction func recordButtonTapped(_ sender: UIButton) {
         isStart = true
         changeRecordButtonToTimer()
@@ -120,7 +197,7 @@ class WritingBoardViewController: UIViewController {
         recordFrames  = 0
         let timer = Timer.scheduledTimer(timeInterval: 1.0 / Double(recordFPS),
                                                            target: self, selector: #selector(WritingBoardViewController.timerCallback(_:)), userInfo: nil, repeats: true)
-        NSLog("schedule timer %@", timer)
+        print("schedule timer %@", timer)
         return timer
         
     }
@@ -205,7 +282,7 @@ class WritingBoardViewController: UIViewController {
         guard blockDrawTouch else {
             return
         }
-        NSLog("wbvc touches begin")
+        print("touches begin")
         canvasView.beginTouches(touches, withEvent: event)
     }
     
@@ -235,51 +312,7 @@ class WritingBoardViewController: UIViewController {
     
     
     
-    /**
-     * @return 是否增加了Page
-     */
-    @discardableResult
-    func gotoNextPage(sendToPeer: Bool) -> Bool {
-        
-        var addedNewPage = false
-        if pageIndex == pages.count - 1 {
-            addedNewPage = true
-            pages.append(WritintBoardCanvasPage())
-        } else if (pageIndex >= pages.count) {
-            return false
-        }
-        
-        let pageTogo = pageIndex + 1
-        gotoPage(pageTogo)
-        return addedNewPage
-    }
     
-    func gotoPage(_ index: Int) {
-        
-        assert(index >= 0 && index < pages.count)
-        pageIndex = index
-        
-        let page = pages[index]
-        canvasView.loadPage(page)
-        
-        if let _ = page.pptImageURL , !page.pptImageWasDrawn {
-            
-            if page.pptImage != nil {
-                page.paintPPTImage(self.canvasView)
-            } else {
-                
-                }
-            }
-        }
-    
-    
-    fileprivate func insertPage(afterIndex index: Int) {
-        let newPage = WritintBoardCanvasPage()
-        pages.insert(newPage, at: index + 1)
-        NSLog("after add a page, have %d pages", pages.count)
-        gotoNextPage(sendToPeer: false)
-        
-    }
     
     
 }

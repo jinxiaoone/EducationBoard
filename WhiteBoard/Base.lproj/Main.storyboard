@@ -184,16 +184,29 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBc-UX-jDE" userLabel="PreviousPageButton">
                                 <rect key="frame" x="455.5" y="760" width="49.5" height="50"/>
                                 <state key="normal" image="WBPagePrevious"/>
+                                <connections>
+                                    <action selector="prevPageButtonTapped:" destination="2XI-yd-alc" eventType="touchUpInside" id="IRM-J7-tIA"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3G1-Eg-t6c" userLabel="NextPageButton">
                                 <rect key="frame" x="575" y="760" width="49.5" height="50"/>
                                 <state key="normal" image="WBPageNext"/>
+                                <connections>
+                                    <action selector="nextPageTapped:" destination="2XI-yd-alc" eventType="touchUpInside" id="exZ-58-aKA"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhX-lX-ctR">
+                                <rect key="frame" x="331.5" y="770.5" width="24" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.43137254899999999" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="NGe-jy-iGj" firstAttribute="leading" secondItem="UGT-Z9-pC4" secondAttribute="leading" id="4Yk-Ue-ZGf"/>
                             <constraint firstItem="OTF-6o-2eO" firstAttribute="leading" secondItem="UGT-Z9-pC4" secondAttribute="leading" id="5Tj-yy-KNf"/>
+                            <constraint firstItem="ZhX-lX-ctR" firstAttribute="leading" secondItem="UGT-Z9-pC4" secondAttribute="leading" constant="331.5" id="6ji-uJ-0z2"/>
                             <constraint firstItem="LfR-Gb-FeZ" firstAttribute="leading" secondItem="uBc-UX-jDE" secondAttribute="trailing" id="8yF-Ty-Edr"/>
                             <constraint firstItem="UQZ-3B-Wxm" firstAttribute="top" secondItem="OTF-6o-2eO" secondAttribute="bottom" id="Gyq-Eq-2EM"/>
                             <constraint firstItem="UQZ-3B-Wxm" firstAttribute="top" secondItem="uBc-UX-jDE" secondAttribute="bottom" id="IH1-nw-NBK"/>
@@ -203,7 +216,9 @@
                             <constraint firstAttribute="trailing" secondItem="OTF-6o-2eO" secondAttribute="trailing" id="bOr-se-dWp"/>
                             <constraint firstItem="3G1-Eg-t6c" firstAttribute="leading" secondItem="LfR-Gb-FeZ" secondAttribute="trailing" id="dVb-fj-aKZ"/>
                             <constraint firstItem="82e-t8-bTg" firstAttribute="top" secondItem="Ka5-e8-o9M" secondAttribute="bottom" constant="4" id="dw7-Fd-QnZ"/>
+                            <constraint firstItem="uBc-UX-jDE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZhX-lX-ctR" secondAttribute="trailing" constant="8" symbolic="YES" id="hVu-zR-OPd"/>
                             <constraint firstItem="LfR-Gb-FeZ" firstAttribute="centerX" secondItem="UGT-Z9-pC4" secondAttribute="centerX" id="kSm-Gz-WHp"/>
+                            <constraint firstItem="uBc-UX-jDE" firstAttribute="centerY" secondItem="ZhX-lX-ctR" secondAttribute="centerY" constant="4" id="ksA-fB-NYj"/>
                             <constraint firstItem="NGe-jy-iGj" firstAttribute="centerY" secondItem="UGT-Z9-pC4" secondAttribute="centerY" id="lmk-s3-xQd"/>
                             <constraint firstItem="UQZ-3B-Wxm" firstAttribute="top" secondItem="3G1-Eg-t6c" secondAttribute="bottom" id="nNC-OK-hDQ"/>
                         </constraints>
@@ -213,6 +228,9 @@
                     <connections>
                         <outlet property="canvasView" destination="OTF-6o-2eO" id="0de-bf-AwZ"/>
                         <outlet property="finishLabel" destination="BFR-Wq-jX6" id="iOL-ix-b1u"/>
+                        <outlet property="nextPageButton" destination="3G1-Eg-t6c" id="3T6-gG-mmH"/>
+                        <outlet property="pageIndicator" destination="ZhX-lX-ctR" id="TfQ-Mm-iJ5"/>
+                        <outlet property="previousPageButton" destination="uBc-UX-jDE" id="nDW-I2-aME"/>
                         <outlet property="recordButton" destination="XRL-Hk-E5e" id="CCG-3m-axg"/>
                         <outlet property="recorderConsole" destination="82e-t8-bTg" id="3We-80-FTw"/>
                         <outlet property="timerLabel" destination="7J9-h8-RCM" id="Bpr-M2-Vm4"/>

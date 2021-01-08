@@ -95,7 +95,6 @@ class WritingBoardCanvasView: UIView {
     }
     
     func beginTouches(_ touches: Set<UITouch>, withEvent event: UIEvent?) {
-        NSLog("chenggong---")
         if let location = touches.first?.location(in: self) {
             let penEvent = WritingBoardPenEvent(
                 location: location,
@@ -136,7 +135,6 @@ class WritingBoardCanvasView: UIView {
     }
     
     func endTouches(_ touches: Set<UITouch>, cancel: Bool) {
-        //print("endtouches")
         if let location = touches.first?.location(in: self) {
             
             let penEvent = WritingBoardPenEvent(

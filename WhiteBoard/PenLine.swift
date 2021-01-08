@@ -123,17 +123,11 @@ class PenLine: NSObject {
         
         //        let p0 = pendingPoints[0]
         //        let p1 = pendingPoints[1]
-        //        let p2 = pendingPoints[2]
-        //        let p3 = pendingPoints[3]
-        
-        
 //        _ = RAYBezierSpline(points: pendingPoints)
-        
         
         
         ctx.beginPath()
         //CGContextMoveToPoint(ctx, p2.x, p2.y)
-        
         
         ctx.strokePath()
         
